@@ -55,14 +55,11 @@ public class ApplicationListener implements ServletContextListener {
 
 			// set the first run to now + interval (to avoid fireing while the
 			// app/server is starting)
-			// 最快不低于10秒
-			calendar.add(Calendar.SECOND, (interval < 10 ? 10 : interval));
+			calendar.add(Calendar.MINUTE, interval);
 			Date startTime = calendar.getTime();
 
 			// schedule the task
-			// timer.scheduleAtFixedRate(task, startTime, 1000 * 60 * interval);
-			// 单位改成秒, 张良 2014-02-20 16:51:44
-			timer.scheduleAtFixedRate(task, startTime, 1000 * interval);
+			timer.scheduleAtFixedRate(task, startTime, 1000 * 60 * interval);
 
 			// save the timer in context
 			servletContext.setAttribute("timer", timer);
@@ -82,13 +79,12 @@ public class ApplicationListener implements ServletContextListener {
 			Calendar fullImportCalendar = Calendar.getInstance();
 			Date beginDate = fullImportTask.getReBuildIndexBeginTime();
 			fullImportCalendar.setTime(beginDate);
-			fullImportCalendar.add(Calendar.SECOND,
-					(reBuildIndexInterval < 10 ? 10 : reBuildIndexInterval));
+			fullImportCalendar.add(Calendar.MINUTE, reBuildIndexInterval);
 			Date fullImportStartTime = fullImportCalendar.getTime();
 
 			// schedule the task
 			fullImportTimer.scheduleAtFixedRate(fullImportTask,
-					fullImportStartTime, 1000 * reBuildIndexInterval);
+					fullImportStartTime, 1000 * 60 * reBuildIndexInterval);
 
 			// save the timer in context
 			servletContext.setAttribute("fullImportTimer", fullImportTimer);

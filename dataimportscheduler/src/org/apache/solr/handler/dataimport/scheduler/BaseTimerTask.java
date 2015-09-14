@@ -82,8 +82,8 @@ public abstract class BaseTimerTask extends TimerTask {
 			webapp = webAppName;
 		if (interval == null || interval.isEmpty() || getIntervalInt() <= 0)
 			interval = "30";
-		if (reBuildIndexBeginTime == null || reBuildIndexBeginTime.isEmpty())
-			reBuildIndexBeginTime = "00:00:00";
+		//if (reBuildIndexBeginTime == null || reBuildIndexBeginTime.isEmpty())
+		//	interval = "00:00:00";
 		if (reBuildIndexInterval == null || reBuildIndexInterval.isEmpty()
 				|| getReBuildIndexIntervalInt() <= 0)
 			reBuildIndexInterval = "0";
@@ -117,11 +117,11 @@ public abstract class BaseTimerTask extends TimerTask {
 			URL url = new URL(completeUrl);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-			conn.setRequestMethod("POST");
+			conn.setRequestMethod("GET");
 			conn.setRequestProperty("type", "submit");
 			conn.setDoOutput(true);
 
-			// Send HTTP POST
+			// Send HTTP GET
 			conn.connect();
 
 			logger.info(core + "<index update process> Full URL\t\t\t\t"
@@ -180,7 +180,7 @@ public abstract class BaseTimerTask extends TimerTask {
 	public Date getReBuildIndexBeginTime() {
 		Date beginDate = null;
 		try {
-			SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String dateStr = sdfDate.format(new Date());
 			beginDate = sdfDate.parse(dateStr);
 			if (reBuildIndexBeginTime == null
